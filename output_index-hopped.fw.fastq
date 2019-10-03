@@ -1,0 +1,7 @@
+#this file will contain a read that is index-hopped, the second record from R2 will have a known index
+#but the reverse record in R3 will not be its reverse complementary
+
+@Seq2_GTAGCGTA-CGATCGAT
+GCGCGCGCGCGC
++
+A#AAFJJJJJJJ
