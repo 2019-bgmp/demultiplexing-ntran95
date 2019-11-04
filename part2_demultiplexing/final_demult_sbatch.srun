@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+#SBATCH --partition=bgmp        ### Partition (like a queue in PBS)
+#SBATCH --job-name=FINAL_DM     ### Job Name
+#SBATCH --output=FINAL_DM.out         ### File in which to store job output
+#SBATCH --error=FINAL_DM.err          ### File in which to store job error messages
+#SBATCH --time=0-50:00:00       ### Wall clock time limit in Days-HH:MM:SS
+#SBATCH --nodes=1               ### Number of nodes needed for the job
+#SBATCH --ntasks-per-node=1     ### Number of tasks to be launched per Node
+#SBATCH --account=bgmp      ### Account used for job submission
+#SBATCH --cpus-per-task=16
+
+conda deactivate
+conda deactivate
+conda deactivate
+conda deactivate
+conda activate bgmp_py3
+
+/usr/bin/time -v ./final_demultiplexing_script.py -a /home/ntran2/bgmp/Bi621/Multiplexing/1294_S1_L008_R1_001.fastq.gz -b /home/ntran2/bgmp/Bi621/Multiplexing/1294_S1_L008_R2_001.fastq.gz \
+-c /home/ntran2/bgmp/Bi621/Multiplexing/1294_S1_L008_R3_001.fastq.gz -d /home/ntran2/bgmp/Bi621/Multiplexing/1294_S1_L008_R4_001.fastq.gz -q 28
