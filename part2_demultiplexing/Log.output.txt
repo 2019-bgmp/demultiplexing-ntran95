@@ -1,0 +1,34 @@
+The following statistics was populated given the average quality score cutoff per record was set to: 28 and the index quality score must be above 20 per base
+
+The total number of reads processed is: 363246735
+The number of observed dual matched reads is: 331755033
+The proportion of observed dual matched reads is: 91.33049275721639%
+The number of observed index-hopped reads is: 16525155
+The proportion of observed index-hopped reads is: 4.549292094807129%
+The total number of reads filed to undetermined is: 40984774
+The proportion of reads filed to undetermined is: 11.282902239988475%
+---------------------------------------------------------------------------------------
+Index: TATGGCAC | Count: 11184304 | Proportion observed: 3.0789826644966265%
+Index: GATCAAGG | Count: 6587100 | Proportion observed: 1.81339551475941%
+Index: GCTACTCT | Count: 7416557 | Proportion observed: 2.041740856941219%
+Index: TCGGATTC | Count: 4611350 | Proportion observed: 1.269481472421218%
+Index: AGAGTCCA | Count: 11316780 | Proportion observed: 3.1154526413017862%
+Index: AGGATAGC | Count: 8673180 | Proportion observed: 2.387682851437054%
+Index: CTCTGGAT | Count: 34976387 | Proportion observed: 9.628823504772864%
+Index: TCGAGAGT | Count: 11741547 | Proportion observed: 3.2323888609762728%
+Index: GTCCTAAG | Count: 8830276 | Proportion observed: 2.430930590470414%
+Index: CGGTAATC | Count: 5064906 | Proportion observed: 1.394343159065146%
+Index: TCTTCGAC | Count: 42094112 | Proportion observed: 11.58829741442824%
+Index: TAGCCATG | Count: 10629633 | Proportion observed: 2.926284526686799%
+Index: GTAGCGTA | Count: 8119243 | Proportion observed: 2.235186780137198%
+Index: ACGATCAG | Count: 7942853 | Proportion observed: 2.186627499900309%
+Index: ATCATGCG | Count: 10087503 | Proportion observed: 2.7770388631297678%
+Index: TCGACAAG | Count: 3853350 | Proportion observed: 1.060807883104579%
+Index: AACAGCGA | Count: 8872034 | Proportion observed: 2.4424263579409735%
+Index: CACTTCAC | Count: 4191388 | Proportion observed: 1.1538680450906187%
+Index: TGTTCCGT | Count: 15733007 | Proportion observed: 4.331217732762278%
+Index: CGATCGAT | Count: 5604966 | Proportion observed: 1.5430189620286607%
+Index: ATCGTGGT | Count: 6887592 | Proportion observed: 1.8961194516999582%
+Index: GATCTTGC | Count: 3641072 | Proportion observed: 1.0023688168869571%
+Index: TACCGGAT | Count: 76363857 | Proportion observed: 21.022585929093072%
+Index: CTAGCTCA | Count: 17332036 | Proportion observed: 4.771422377684964%
