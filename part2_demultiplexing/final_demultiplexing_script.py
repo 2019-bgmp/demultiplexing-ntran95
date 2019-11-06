@@ -12,6 +12,7 @@ import gzip
 indexes = "/projects/bgmp/shared/2017_sequencing/indexes.txt"
 
 def get_arguements():
+    ```This function handles all argparse agruements i.e, specifying files, average quality score per record```
     parser = argparse.ArgumentParser(description="reading in different files & specifying quality cutoff")
     parser.add_argument("-a", "--R1_file", help="this argument specifies the R1 file", type =str, required=True)
     parser.add_argument("-b", "--R2_file", help="this argument specifies the R2 file", type =str, required=True)
@@ -29,18 +30,23 @@ q=args.avg_qscore
 
 
 def convert_phred(letter):
+```convert ascii characters to q score```
     return (ord(letter)) -33
 
 def get_barcodes():
+```opens the files containing the known barcodes, selects the column containing barcodes and stores it into a list```
     with open(indexes, "rt") as fh:
         known_barcodes = []
         next(fh)
         for line in fh:
+            #splits elements in between spaces into a list
             line_split = line.split()
+            #select the element containing the known_barcodes
             known_barcodes.append(line_split[4])
     return(known_barcodes)
 
 def reverse_complement(seq):
+```This functions reads in a index sequence or string and returns the reverse complement based on the critirion in the complement{} dictionary```
     complement = {'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A', 'N': 'N'}
 
     bases = list(seq)
@@ -52,8 +58,8 @@ def reverse_complement(seq):
 
 
 def get_Ns(seq_line):
-#This function checks for Ns in the record, might use this function to file out, we'll see```
-
+```This function reads in a string from an indexes's sequence line and checks for Ns. If there is an "N" in seq line, the function returns True``
+    #after reading in each basepair in the indexes' seq line, the basepairs are stored in the seq_line[] list for comparison
     seq_list = []
 
     #print(seq_line)
@@ -64,12 +70,12 @@ def get_Ns(seq_line):
             return True
             #return print("There's Ns in this quality line")
 
+#this
 qual_cutoff = q
 
 def avg_qscore(qual_line):
-    #adds quality score of each bp, returns mean, if mean qscore does not meet qscore cut off --> omit
-    #this works, tested
-    #set another condition that
+```This function takes in the quality line of the BIOLOGICAL READS (R1 OR R4), adds quality score of each bp, returns mean. In downstream comparison: if mean qscore does not meet qscore cut off --> omit```
+
     LN =0
     q_list =[]
     score_list = []
@@ -85,6 +91,7 @@ def avg_qscore(qual_line):
     return statistics.mean(score_list)
 
 def index_qual_per_base(index_qual_line):
+```This function reads in the seq line of the indexes looks that the quality of each base pair and stores it into a list for comparison. If any nucleotide has a qscore lower than 20, return true ```
     LN = 0
     q_list = []
     scores_list = []
@@ -100,7 +107,7 @@ def index_qual_per_base(index_qual_line):
 
 
 def write_to_file(file, record_list, barcode1, barcode2):
-    #this function write to file whenever a condition is met
+```this function write to file whenever a condition is met. Takes in 4 parameters: the file name, the 4 line record, R2's barcode and R3's barcode.```
     with open(file, "a") as file_out:
         header_line = record_list[0] + "_" + barcode1 + "_" + barcode2
         file_out.write(header_line + "\n")
@@ -110,24 +117,29 @@ def write_to_file(file, record_list, barcode1, barcode2):
         file_out.close()
 
 
+#these variables are initiated as counters to keep track of the occurances of dual matched, index hopped, or low qual observed
 indexhopped_counter = 0
 dual_matched_counter = 0
 R1_lowqual = 0
 R4_lowqual = 0
 
+#opening R1,R2,R3, R4 and storing them into their respective file handles
 with gzip.open(a, "rt") as R1, gzip.open(b, "rt") as R2, gzip.open(c, "rt") as R3, gzip.open(d, "rt") as R4:
     i = 0
 
+    #storing file names of the four files into a list
     list_of_fh = [R1, R2, R3, R4]
 
+    #calling the get_barcodes() function to retrieve the known barcode list
     barcode_list = get_barcodes()
-
+    #unused variable: in_list
     in_list = False
-
+    #empty list initiated for the purpose of storing matched indexes in a list, in downstream comparison, this list will be used to count the number of observed barcode occurances
     dual_matched_list =[]
 
     LN = 0
     while True:
+        #Initiatizing empty list to store a single record from each file
         R1_rec = []
         R2_rec = []
         R3_rec = []
@@ -141,7 +153,7 @@ with gzip.open(a, "rt") as R1, gzip.open(b, "rt") as R2, gzip.open(c, "rt") as R
             line2 = file_handle.readline()
             line3 = file_handle.readline()
             line4 = file_handle.readline()
-
+            #rstrip removes the tailing "\n"
             if i == 0:
                 R1_rec.append(line1.rstrip('\n'))
                 R1_rec.append(line2.rstrip('\n'))
@@ -168,6 +180,7 @@ with gzip.open(a, "rt") as R1, gzip.open(b, "rt") as R2, gzip.open(c, "rt") as R
                 R4_rec.append(line4.rstrip('\n'))
 
             i+=1
+        #method of breaking out of loop
         if len(R1_rec) < 4:
             break
         if line1 == "":
@@ -203,9 +216,10 @@ with gzip.open(a, "rt") as R1, gzip.open(b, "rt") as R2, gzip.open(c, "rt") as R
             write_to_file("index-hopped_R4.txt", R4_rec, R2_rec[1], R3_rec[1])
             indexhopped_counter +=1
 
-
+        #iterate to next set of records
         LN+=1
 
+#printing summary statistics to Log.output.txt file
 f = open("Log.output.txt",'w')
 f.write("The following statistics was populated given the average quality score cutoff per record was set to: " + str(qual_cutoff) + " and the index quality score must be above 20 per base" + "\n" + "\n")
 f.write("The total number of reads processed is: " + str(LN) + "\n")
@@ -216,6 +230,7 @@ f.write("The proportion of observed index-hopped reads is: " + str((indexhopped_
 f.write("The total number of reads filed to undetermined is: " + str(R1_lowqual)+ "\n")
 f.write("The proportion of reads filed to undetermined is: " + str((R1_lowqual/LN) * 100)+ "%" + "\n")
 f.write("---------------------------------------------------------------------------------------" + "\n")
+#this for loop uses the set() method to search for unique known barcords and count occurances
 for x in set(dual_matched_list):
             f.write("Index: {0} | Count: {1}".format(x,dual_matched_list.count(x)) + " | Proportion observed: " + str(("{1}".format(x,dual_matched_list.count(x)/LN * 100))) + "%" + "\n")
 
